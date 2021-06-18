@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcCampgroundDao implements CampgroundDao {
@@ -17,7 +18,16 @@ public class JdbcCampgroundDao implements CampgroundDao {
 
     @Override
     public List<Campground> getCampgroundsByParkId(int parkId) {
-        return null;
+        List<Campground>campground=new ArrayList<>();
+        String sql="SELECT campground.campground_Id, park_Id, name, open_from_mm, open_to_mm, daily_fee " +
+                "FROM campground " +
+                "WHERE campground.park_id=?;";
+        SqlRowSet results=jdbcTemplate.queryForRowSet(sql, parkId);
+        while(results.next()){
+            campground.add(mapRowToCampground(results));
+        }
+
+        return campground;
     }
 
     private Campground mapRowToCampground(SqlRowSet results) {

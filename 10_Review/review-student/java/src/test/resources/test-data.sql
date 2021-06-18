@@ -1,8 +1,5 @@
 /* Clean out the data first */
-DELETE FROM reservation;
-DELETE FROM site;
-DELETE FROM campground;
-DELETE FROM park;
+TRUNCATE reservation, site, campground, park RESTART IDENTITY CASCADE;
 
 
 /* test parks */
